@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alya Kujou - Live Location</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .modal {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+      max-width: 320px;
+      border: 1px solid #334155;
+    }
+    .modal h3 { 
+      margin-top: 0; 
+      font-size: 1.25rem; 
+      color: #38bdf8; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal p { 
+      color: #94a3b8; 
+      font-size: 0.9rem; 
+      margin-bottom: 24px; 
+      line-height: 1.5; 
+    }
+    .btn-container { 
+      display: flex; 
+      gap: 12px; 
+      justify-content: center; 
+      margin-bottom: 16px; 
+    }
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      flex: 1;
+      font-size: 0.9rem;
+    }
+    .accept { background-color: #0284c7; color: white; }
+    .decline { border: 1px solid #475569; background: transparent; color: #94a3b8; }
+    
+    .privacy-link {
+      color: #f472b6;
+      text-decoration: underline;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    #scare-screen {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: black;
+      z-index: 9999;
+    }
+
+    .active-scare {
+      animation: gentleShake 0.06s infinite;
+    }
+
+    #scare-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(45%) contrast(240%) sepia(100%) hue-rotate(320deg) saturate(1200%);
+      animation: zoomPulse 0.3s ease-in-out infinite alternate;
+    }
+
+    @keyframes gentleShake {
+      0% { transform: translate(6px, 6px); }
+      25% { transform: translate(-6px, -6px); }
+      50% { transform: translate(-6px, 6px); }
+      75% { transform: translate(6px, -6px); }
+      100% { transform: translate(6px, 6px); }
+    }
+
+    @keyframes zoomPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.22); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fake Location Tracker Modal -->
+  <div class="modal" id="cookie-modal">
+    <h3>📍 Live Location Shared</h3>
+    <p><strong>Alya Kujou</strong> has shared her real-time GPS location with you. Accept permissions to load the map.</p>
+    <div class="btn-container">
+      <button class="btn accept" onclick="popScare()">View Location</button>
+      <button class="btn decline" onclick="popScare()">Decline</button>
+    </div>
+    <a class="privacy-link" onclick="popScare()">Location Privacy Terms</a>
+  </div>
+
+  <!-- Jump Scare Screen -->
+  <div id="scare-screen">
+    <img id="scare-img" src="scare.jpg" alt="Alya Location">
+    <audio id="scream-sound" src="scream.mp3"></audio>
+  </div>
+
+  <script>
+    function popScare() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => {});
+      }
+
+      document.getElementById('cookie-modal').style.display = 'none';
+      const scareScreen = document.getElementById('scare-screen');
+      scareScreen.style.display = 'block';
+      scareScreen.classList.add('active-scare');
+      
+      const audio = document.getElementById('scream-sound');
+      audio.play();
+    }
+  </script>
+</body>
+</html>
+
